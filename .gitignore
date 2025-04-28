@@ -2,7 +2,11 @@
 .Env
 .env.example
 .env.local
-
+env/ 
+bin/
+lib/
+lib64/
+lib64
 
 # Tests
 .phpunit.result.cache
