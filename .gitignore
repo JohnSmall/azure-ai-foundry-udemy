@@ -2,6 +2,7 @@
 .Env
 .env.example
 .env.local
+venv/
 env/ 
 bin/
 lib/

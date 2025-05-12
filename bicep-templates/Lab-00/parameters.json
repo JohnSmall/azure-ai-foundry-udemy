@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "datastores_workspaceartifactstore_secretsType": {
+            "value": null
+        },
+        "datastores_workspaceblobstore_secretsType": {
+            "value": null
+        },
+        "datastores_workspaceworkingdirectory_secretsType": {
+            "value": null
+        },
+        "workspaces_lesson_1_name": {
+            "value": null
+        },
+        "workspaces_udemy_hub_4_training_name": {
+            "value": null
+        },
+        "storageAccounts_udemyhub4train5967276462_externalid": {
+            "value": null
+        },
+        "vaults_udemyhub4train9604195259_externalid": {
+            "value": null
+        },
+        "workspaces_udemy_hub_4_training_externalid": {
+            "value": null
+        },
+        "accounts_ai_mslearning513630609321_externalid": {
+            "value": null
+        },
+        "accounts_udemyhub4train8887029997_externalid": {
+            "value": null
+        }
+    }
+}

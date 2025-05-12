@@ -1,0 +1,531 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "datastores_workspaceartifactstore_secretsType": {
+            "type": "SecureString"
+        },
+        "datastores_workspaceblobstore_secretsType": {
+            "type": "SecureString"
+        },
+        "datastores_workspaceworkingdirectory_secretsType": {
+            "type": "SecureString"
+        },
+        "workspaces_lesson_1_name": {
+            "defaultValue": "lesson-1",
+            "type": "String"
+        },
+        "workspaces_udemy_hub_4_training_name": {
+            "defaultValue": "udemy-hub-4-training",
+            "type": "String"
+        },
+        "storageAccounts_udemyhub4train5967276462_externalid": {
+            "defaultValue": "/subscriptions/7a91c5e0-9e3c-4386-949e-e4d4bec3509e/resourceGroups/udemy-ai-training/providers/Microsoft.Storage/storageAccounts/udemyhub4train5967276462",
+            "type": "String"
+        },
+        "vaults_udemyhub4train9604195259_externalid": {
+            "defaultValue": "/subscriptions/7a91c5e0-9e3c-4386-949e-e4d4bec3509e/resourceGroups/udemy-ai-training/providers/Microsoft.KeyVault/vaults/udemyhub4train9604195259",
+            "type": "String"
+        },
+        "workspaces_udemy_hub_4_training_externalid": {
+            "defaultValue": "/subscriptions/7a91c5e0-9e3c-4386-949e-e4d4bec3509e/resourceGroups/udemy-ai-training/providers/Microsoft.MachineLearningServices/workspaces/udemy-hub-4-training",
+            "type": "String"
+        },
+        "accounts_ai_mslearning513630609321_externalid": {
+            "defaultValue": "/subscriptions/7a91c5e0-9e3c-4386-949e-e4d4bec3509e/resourceGroups/MS-AI-Learning/providers/Microsoft.CognitiveServices/accounts/ai-mslearning513630609321",
+            "type": "String"
+        },
+        "accounts_udemyhub4train8887029997_externalid": {
+            "defaultValue": "/subscriptions/7a91c5e0-9e3c-4386-949e-e4d4bec3509e/resourceGroups/udemy-ai-training/providers/Microsoft.CognitiveServices/accounts/udemyhub4train8887029997",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[parameters('workspaces_lesson_1_name')]",
+            "location": "uksouth",
+            "sku": {
+                "name": "Basic",
+                "tier": "Basic"
+            },
+            "kind": "Project",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "friendlyName": "[parameters('workspaces_lesson_1_name')]",
+                "storageAccount": "[parameters('storageAccounts_udemyhub4train5967276462_externalid')]",
+                "keyVault": "[parameters('vaults_udemyhub4train9604195259_externalid')]",
+                "hbiWorkspace": false,
+                "managedNetwork": {
+                    "isolationMode": "Disabled"
+                },
+                "allowRoleAssignmentOnRG": false,
+                "v1LegacyMode": false,
+                "publicNetworkAccess": "Enabled",
+                "ipAllowlist": [],
+                "networkAcls": {
+                    "defaultAction": "Allow",
+                    "ipRules": []
+                },
+                "discoveryUrl": "https://uksouth.api.azureml.ms/discovery",
+                "EnableSoftwareBillOfMaterials": false,
+                "hubResourceId": "[parameters('workspaces_udemy_hub_4_training_externalid')]",
+                "enableDataIsolation": true,
+                "systemDatastoresAuthMode": "accesskey",
+                "enableServiceSideCMKEncryption": false
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/connections/deployments",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_udemy_hub_4_training_name'), '/udemyhub4train8887029997_aoai/gpt-4.1')]",
+            "sku": {
+                "name": "GlobalStandard",
+                "capacity": 150
+            },
+            "properties": {}
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/connections/raiPolicies",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_udemy_hub_4_training_name'), '/ai-mslearning513630609321_aoai/Microsoft.Default')]",
+            "properties": {
+                "type": "SystemManaged",
+                "mode": "Blocking",
+                "contentFilters": [
+                    {
+                        "name": "Hate",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Hate",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Sexual",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Sexual",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Violence",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Violence",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Selfharm",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Selfharm",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/connections/raiPolicies",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_udemy_hub_4_training_name'), '/udemyhub4train8887029997_aoai/Microsoft.Default')]",
+            "properties": {
+                "type": "SystemManaged",
+                "mode": "Blocking",
+                "contentFilters": [
+                    {
+                        "name": "Hate",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Hate",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Sexual",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Sexual",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Violence",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Violence",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Selfharm",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Selfharm",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/connections/raiPolicies",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_udemy_hub_4_training_name'), '/ai-mslearning513630609321_aoai/Microsoft.DefaultV2')]",
+            "properties": {
+                "type": "SystemManaged",
+                "mode": "Blocking",
+                "contentFilters": [
+                    {
+                        "name": "Hate",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Hate",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Sexual",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Sexual",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Violence",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Violence",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Selfharm",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Selfharm",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Jailbreak",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Protected Material Text",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Protected Material Code",
+                        "blocking": false,
+                        "enabled": true,
+                        "source": "Completion"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/connections/raiPolicies",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_udemy_hub_4_training_name'), '/udemyhub4train8887029997_aoai/Microsoft.DefaultV2')]",
+            "properties": {
+                "type": "SystemManaged",
+                "mode": "Blocking",
+                "contentFilters": [
+                    {
+                        "name": "Hate",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Hate",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Sexual",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Sexual",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Violence",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Violence",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Selfharm",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Selfharm",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Jailbreak",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Prompt"
+                    },
+                    {
+                        "name": "Protected Material Text",
+                        "blocking": true,
+                        "enabled": true,
+                        "source": "Completion"
+                    },
+                    {
+                        "name": "Protected Material Code",
+                        "blocking": false,
+                        "enabled": true,
+                        "source": "Completion"
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/connections",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_lesson_1_name'), '/ai-mslearning513630609321')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_lesson_1_name'))]"
+            ],
+            "properties": {
+                "authType": "ApiKey",
+                "category": "AIServices",
+                "target": "https://ai-mslearning513630609321.cognitiveservices.azure.com/",
+                "useWorkspaceManagedIdentity": true,
+                "isSharedToAll": true,
+                "sharedUserList": [],
+                "peRequirement": "NotRequired",
+                "peStatus": "NotApplicable",
+                "metadata": {
+                    "ApiType": "Azure",
+                    "ResourceId": "[parameters('accounts_ai_mslearning513630609321_externalid')]",
+                    "Location": "swedencentral",
+                    "ApiVersion": "2023-07-01-preview",
+                    "DeploymentApiVersion": "2023-10-01-preview"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/connections",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_lesson_1_name'), '/ai-mslearning513630609321_aoai')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_lesson_1_name'))]"
+            ],
+            "properties": {
+                "authType": "ApiKey",
+                "category": "AzureOpenAI",
+                "target": "https://ai-mslearning513630609321.openai.azure.com/",
+                "useWorkspaceManagedIdentity": true,
+                "isSharedToAll": true,
+                "sharedUserList": [],
+                "peRequirement": "NotRequired",
+                "peStatus": "NotApplicable",
+                "metadata": {
+                    "ApiType": "Azure",
+                    "ResourceId": "[parameters('accounts_ai_mslearning513630609321_externalid')]",
+                    "Location": "swedencentral",
+                    "ApiVersion": "2023-07-01-preview",
+                    "DeploymentApiVersion": "2023-10-01-preview"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/connections",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_lesson_1_name'), '/udemyhub4train8887029997')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_lesson_1_name'))]"
+            ],
+            "properties": {
+                "authType": "ApiKey",
+                "category": "AIServices",
+                "target": "https://udemyhub4train8887029997.cognitiveservices.azure.com/",
+                "useWorkspaceManagedIdentity": true,
+                "isSharedToAll": true,
+                "sharedUserList": [],
+                "peRequirement": "NotRequired",
+                "peStatus": "NotApplicable",
+                "metadata": {
+                    "ApiType": "Azure",
+                    "ResourceId": "[parameters('accounts_udemyhub4train8887029997_externalid')]",
+                    "ApiVersion": "2023-07-01-preview",
+                    "DeploymentApiVersion": "2023-10-01-preview"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/connections",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_lesson_1_name'), '/udemyhub4train8887029997_aoai')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_lesson_1_name'))]"
+            ],
+            "properties": {
+                "authType": "ApiKey",
+                "category": "AzureOpenAI",
+                "target": "https://udemyhub4train8887029997.openai.azure.com/",
+                "useWorkspaceManagedIdentity": true,
+                "isSharedToAll": true,
+                "sharedUserList": [],
+                "peRequirement": "NotRequired",
+                "peStatus": "NotApplicable",
+                "metadata": {
+                    "ApiType": "Azure",
+                    "ResourceId": "[parameters('accounts_udemyhub4train8887029997_externalid')]",
+                    "ApiVersion": "2023-07-01-preview",
+                    "DeploymentApiVersion": "2023-10-01-preview"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_lesson_1_name'), '/workspaceartifactstore')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_lesson_1_name'))]"
+            ],
+            "properties": {
+                "credentials": {
+                    "credentialsType": "Sas",
+                    "secrets": {
+                        "secretsType": "[parameters('datastores_workspaceartifactstore_secretsType')]"
+                    }
+                },
+                "datastoreType": "AzureBlob",
+                "accountName": "udemyhub4train5967276462",
+                "containerName": "21903067-6489-4042-8f81-9eeb447ef16d-azureml",
+                "endpoint": "core.windows.net",
+                "protocol": "https",
+                "serviceDataAccessAuthIdentity": "None"
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_lesson_1_name'), '/workspaceblobstore')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_lesson_1_name'))]"
+            ],
+            "properties": {
+                "credentials": {
+                    "credentialsType": "Sas",
+                    "secrets": {
+                        "secretsType": "[parameters('datastores_workspaceblobstore_secretsType')]"
+                    }
+                },
+                "subscriptionId": "7a91c5e0-9e3c-4386-949e-e4d4bec3509e",
+                "resourceGroup": "udemy-ai-training",
+                "datastoreType": "AzureBlob",
+                "accountName": "udemyhub4train5967276462",
+                "containerName": "21903067-6489-4042-8f81-9eeb447ef16d-azureml-blobstore",
+                "endpoint": "core.windows.net",
+                "protocol": "https",
+                "serviceDataAccessAuthIdentity": "WorkspaceSystemAssignedIdentity"
+            }
+        },
+        {
+            "type": "Microsoft.MachineLearningServices/workspaces/datastores",
+            "apiVersion": "2025-01-01-preview",
+            "name": "[concat(parameters('workspaces_lesson_1_name'), '/workspaceworkingdirectory')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.MachineLearningServices/workspaces', parameters('workspaces_lesson_1_name'))]"
+            ],
+            "properties": {
+                "credentials": {
+                    "credentialsType": "AccountKey",
+                    "secrets": {
+                        "secretsType": "[parameters('datastores_workspaceworkingdirectory_secretsType')]"
+                    }
+                },
+                "datastoreType": "AzureFile",
+                "accountName": "udemyhub4train5967276462",
+                "fileShareName": "21903067-6489-4042-8f81-9eeb447ef16d-code",
+                "endpoint": "core.windows.net",
+                "protocol": "https",
+                "serviceDataAccessAuthIdentity": "None"
+            }
+        }
+    ]
+}
