@@ -1,0 +1,34 @@
+00-lab-getting-started
+  1) "CHAT_COMPLETIONS_DEPLOYMENT_NAME" is introduced without explaining how to set it up in Azure Portal
+  2) Had to update openAI to 1.78.1 to get it to work. Should advise to update to the latest version if you get connection errors. 
+
+01-function-calling
+  2) Seems to be linked to lecture 18 [LAB-9] Function calling in Azure Open AI with Bing API
+
+Lecture 14
+Has a resource to download. I was expecting code, or some content to use in the lecture, but it was just the mp4 file for the lecture. 
+I'm guessing that you intended to upload the pdfs you refered to in the lecture, but accidentally uploaded the mp4 recording of the lecture. 
+
+I grabbed the PDFs from the source website. 
+
+You mentioned "I know I covered this in an earlier video" refering to uploading data ready to index. 
+Err... no. When I go through the lectures in sequence no earlier video mentions uploading data. But I worked it out by clicking around on the Azure website.
+
+Also lecture 14 refers to an earlier lecture that shows how to set up search. But there isn't an earlier video on setting up search and I don't see all the search options you see.
+I only see keyword and semantic
+
+Lecture 15
+Needs to be redone because AI-Studio is now AI-Foundry and is very different. For example the Chat playground no longer has an option 'deploy to web app'
+
+
+Lecture 16
+The title reads LAB-05, but you talk about 'fourth lab'. And we've skipped Lab-02, Lab-03, Lab-04 .
+
+Doesn't have a .env.example or dotenv included in requirements. 
+
+Inconsistent venv or env. In 00-lab-getting-started it's venv, in Lab-05 it's env
+Inconsistent environment variables, 00-lab it's AZURE_OPENAI_API_KEY in Lab-05 it's AZURE_OPENAI_KEY
+
+README.md and README.MD, why?
+
+

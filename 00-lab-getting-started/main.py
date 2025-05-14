@@ -43,8 +43,8 @@ try:
     print(response_content)
 
     # Optional: Print raw response
-    # print("\nRaw Response:")
-    # print(completion.model_dump_json(indent=2))
+    print("\nRaw Response:")
+    print(completion.model_dump_json(indent=2))
 
 except Exception as e:
     print(f"Error: {e}")

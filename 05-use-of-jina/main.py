@@ -1,11 +1,15 @@
 import os
 import requests
 from openai import AzureOpenAI
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Use of these in environment variables
 endpoint = os.environ["AZURE_OPENAI_ENDPOINT"]
-deployment = os.environ["AZURE_OPENAI_DEPLOYMENT"]
-key = os.environ["AZURE_OPENAI_KEY"]
+deployment = os.environ["CHAT_COMPLETIONS_DEPLOYMENT_NAME"]
+key = os.environ["AZURE_OPENAI_API_KEY"]
 
 # Initialize the AzureOpenAI client
 client = AzureOpenAI(
@@ -16,11 +20,13 @@ client = AzureOpenAI(
 )
 
 url = input('Enter the URL of the article you want to summarize: ')
+
+
 def scrape_jina_ai(url: str) -> str:
     response = requests.get("https://r.jina.ai/" + url)
     content = response.text
     return content
-    
+
 
 def generate_summary(content: str, deployment: str, client: AzureOpenAI) -> str:
     # Create the prompt
@@ -44,7 +50,9 @@ def generate_summary(content: str, deployment: str, client: AzureOpenAI) -> str:
     summaries = response.choices[0].message.content
     print(summaries)
     return summaries
-# Scrape the content    
+
+
+# Scrape the content
 content = scrape_jina_ai(url)
 
 # Generate the summary
